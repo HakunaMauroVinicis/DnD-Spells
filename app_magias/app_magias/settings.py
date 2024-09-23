@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
         
     'magias',
+    'utils',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,10 @@ LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
+LANGUAGES = [
+    ('pt', 'Português'),
+    ('en', 'English'),
+]
 
 USE_TZ = True
 
@@ -130,6 +135,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",

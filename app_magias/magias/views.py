@@ -5,10 +5,17 @@ from .models import *
 
 def index(request):
     magias = Magias.objects.all()
+    
+    # Configuração da paginação
+    paginator = Paginator(magias, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'magias': magias,
+        'magias': page_obj,
         'classes': Classes.objects.all(),
-        'escolas': Escolas.objects.all()
+        'escolas': Escolas.objects.all(),
+        'paginator': paginator,
     }
     return render(request, 'magias/index.html', context)
 
@@ -22,7 +29,7 @@ def filter_magias(request):
     componente = request.GET.getlist('componentes')
     classe_id = request.GET.get('classe')
 
-    # Lógia para filtrar as magias
+    # Lógica para filtrar as magias
     if nome:
         magias = magias.filter(nome__icontains=nome)
     if escola_id:
@@ -45,11 +52,11 @@ def filter_magias(request):
     elif order == 'nivel_desc':
         magias = magias.order_by('-nivel')
     
-    # Configurção da paginação
-    paginator = Paginator(magias, 6)
+    # Configuração da paginação
+    paginator = Paginator(magias, 9)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+
     # Para exibir todas as opções de filtro
     escolas = Escolas.objects.all()
     classes = Classes.objects.all()

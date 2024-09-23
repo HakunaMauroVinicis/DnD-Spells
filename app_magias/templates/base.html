@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en" data-bs-theme='light' id="page">
 
@@ -17,7 +18,7 @@
 <body>
     <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">D&D Spells</a>
+            <a class="navbar-brand" href="{% url "index" %}">D&D Spells</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
                 aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
