@@ -4,114 +4,102 @@
 <div class="container my-4">
     <h1 class="mb-4">Magias</h1>
 
-    <!-- Formulário de filtro -->
-    <form action="{% url 'filter_magias' %}" method="get" class="mb-4 position-relative">
-        <div class="row g-3">
-            <div class="col-md-4 position-relative">
-                <input type="text" name="nome" id="nome" class="form-control" placeholder="Filtrar por Nome">
-                <ul id="suggestions" class="list-group position-absolute w-100 overflow-auto bg-white border rounded" style="z-index: 1000; max-height: 200px; display: none;"></ul>
-            </div>
-            <div class="col-md-4">
-                <select name="escola" class="form-select">
-                    <option value="">Filtrar por Escola</option>
-                    {% for escola in escolas %}
-                        <option value="{{ escola.id }}">{{ escola.nome }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4">
-                <select name="nivel" class="form-select">
-                    <option value="">Filtrar por Nível</option>
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <div class="form-check">
-                    <input type="checkbox" name="componentes" value="V" class="form-check-input" id="componentV">
-                    <label class="form-check-label" for="componentV">Componente V (Verbal)</label>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" name="componentes" value="S" class="form-check-input" id="componentS">
-                    <label class="form-check-label" for="componentS">Componente S (Somático)</label>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" name="componentes" value="M" class="form-check-input" id="componentM" onchange="toggleMaterialDescription()">
-                    <label class="form-check-label" for="componentM">Componente M (Material)</label>
-                </div>
-                <input type="text" name="material_descricao" id="material_descricao" class="form-control mt-2 d-none" placeholder="Descreva o material (ex.: Uma pitada de ferro em pó)">
-            </div>
-            <div class="col-md-4">
-                <select name="classe" class="form-select">
-                    <option value="">Filtrar por Classe</option>
-                    {% for classe in classes %}
-                        <option value="{{ classe.id }}">{{ classe.nome }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-20 d-flex justify-content-between align-items-center">
-                <button type="submit" class="btn btn-primary me-3">Filtrar</button>
-                <!-- Filtro de ordenação -->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownSort" data-bs-toggle="dropdown" aria-expanded="false">
-                        Ordenar
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownSort">
-                        <li><a class="dropdown-item" href="?order=nome_asc">Nome (A-Z)</a></li>
-                        <li><a class="dropdown-item" href="?order=nome_desc">Nome (Z-A)</a></li>
-                        <li><a class="dropdown-item" href="?order=nivel_asc">Nível (1-9)</a></li>
-                        <li><a class="dropdown-item" href="?order=nivel_desc">Nível (9-1)</a></li>
-                    </ul>
-                </div>
+<!-- Formulário de filtro -->
+<form action="{% url 'filter_magias' %}" method="get" class="mb-4 position-relative">
+    <div class="row g-3">
+        <div class="col-md-4 position-relative">
+            <input type="text" name="nome" class="form-control" placeholder="Filtrar por Nome">
+            <ul id="suggestions" class="list-group position-absolute bg-white rounded" style="max-height: 200px; display: none;"></ul>
+        </div>
+        <div class="col-md-4">
+            <select name="escola" class="form-select">
+                <option value="">Filtrar por Escola</option>
+                {% for escola in escolas %}
+                    <option value="{{ escola.id }}">{{ escola.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select name="nivel" class="form-select">
+                <option value="">Filtrar por Nível</option>
+                {% for nivel in niveis %}
+                    <option value="{{ nivel }}">{{ nivel }}</option>
+                {% endfor %}
+            </select>
+        </div>        
+        <div class="col-md-4">
+            <ul class="list-unstyled">
+                {% for comp in componentes %}
+                    <li>
+                        <input type="checkbox" name="componentes" value="{{ comp }}" class="form-check-input" id="component{{ comp }}">
+                        <label class="form-check-label" for="component{{ comp }}">Componente {{ comp }}</label>
+                    </li>
+                {% endfor %}
+            </ul>
+            <input type="text" name="material_descricao" class="form-control mt-2 d-none" placeholder="Descreva o material">
+        </div>        
+        <div class="col-md-4">
+            <select name="classe" class="form-select">
+                <option value="">Filtrar por Classe</option>
+                {% for classe in classes %}
+                    <option value="{{ classe.id }}">{{ classe.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-20 d-flex justify-content-between align-items-center">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownSort" data-bs-toggle="dropdown">
+                    Ordenar
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownSort">
+                    <li><a class="dropdown-item" href="?order=nome_asc">Nome (A-Z)</a></li>
+                    <li><a class="dropdown-item" href="?order=nome_desc">Nome (Z-A)</a></li>
+                    <li><a class="dropdown-item" href="?order=nivel_asc">Nível (1-9)</a></li>
+                    <li><a class="dropdown-item" href="?order=nivel_desc">Nível (9-1)</a></li>
+                </ul>
             </div>
         </div>
-    </form>
-
-    <!-- Exibição das magias -->
-    <div class="row">
-        {% for magia in magias %}
-        <div class="col-md-4 mb-4">
-            <div class="card text-dark" style="border-color: {{ magia.escola.cor }}; box-shadow: 0 4px 8px {{ magia.escola.cor }};">
-                <div class="card-body" style="background-color: {{ magia.escola.cor }};">
-                    <h5 class="card-title">{{ magia.nome }}</h5>
-                    <h6 class="card-subtitle mb-2">
-                        {% if magia.truque %}
-                            Truque
-                        {% else %}
-                            {{ magia.nivel }}° nível {{ magia.escola.nome }} {% if magia.ritual %} (Ritual) {% endif %}
-                        {% endif %}
-                    </h6>
-                    <ul class="list-unstyled">
-                        <li><strong>Tempo de Conjuração:</strong> {{ magia.tempo_conjuracao }}</li>
-                        <li><strong>Alcance:</strong> {{ magia.alcance }}</li>
-                        <li><strong>Alvo:</strong> {{ magia.alvo }}</li>
-                        <li><strong>Componentes:</strong> 
-                            {% for componente in magia.componentes.all %}
-                                {{ componente.nome }}{% if componente.nome == 'M' and magia.material_descricao %} ({{ magia.material_descricao }}){% endif %}{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                        </li>
-                        <li><strong>Duração:</strong> {{ magia.duracao }}</li>
-                    </ul>
-                    <p><strong>Classes:</strong> {{ magia.classes.all|join:", " }}</p>
-                    <p><strong>Descrição:</strong> {{ magia.descricao }}</p>
-                    <p><strong>Em Níveis Mais Altos:</strong> {{ magia.em_nivel_mais_alto }}</p>
-                    <p><strong>Escola:</strong> {{ magia.escola.nome }}</p>
-                    {% if magia.imagem %}
-                    <center><a href="{{ magia.imagem.url }}" class="btn mt-3" download>Baixar Carta de Magia</a></center>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
     </div>
+</form>
+
+<!-- Exibição das magias -->
+<div class="row">
+    {% for magia in magias %}
+    <div class="col-md-4 mb-4">
+        <div class="card text-dark" style="border-color: {{ magia.escola.cor }}; box-shadow: 0 4px 8px {{ magia.escola.cor }};">
+            <div class="card-body" style="background-color: {{ magia.escola.cor }}; color: {{ magia.escola.text_color }};">
+                <h5 class="card-title">{{ magia.nome }}</h5>
+                <h6 class="card-subtitle mb-2">
+                    {% if magia.truque %}
+                        Truque
+                    {% else %}
+                        {{ magia.nivel }}° nível {{ magia.escola.nome }} {% if magia.ritual %} (Ritual) {% endif %}
+                    {% endif %}
+                </h6>
+                <ul class="list-unstyled">
+                    <li><strong>Tempo de Conjuração:</strong> {{ magia.tempo_conjuracao }}</li>
+                    <li><strong>Alcance:</strong> {{ magia.alcance }}</li>
+                    <li><strong>Alvo:</strong> {{ magia.alvo }}</li>
+                    <li><strong>Componentes:</strong>
+                        {% for componente in magia.componentes.all %}
+                            {{ componente.nome }}{% if componente.nome == 'M' and magia.material_descricao %} ({{ magia.material_descricao }}){% endif %}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </li>
+                    <li><strong>Duração:</strong> {{ magia.duracao }}</li>
+                </ul>
+                <p><strong>Classes:</strong> {{ magia.classes.all|join:", " }}</p>
+                <p><strong>Descrição:</strong> {{ magia.descricao }}</p>
+                <p><strong>Em Níveis Mais Altos:</strong> {{ magia.em_nivel_mais_alto }}</p>
+                <p><strong>Escola:</strong> {{ magia.escola.nome }}</p>
+                {% if magia.imagem %}
+                <center><a href="{{ magia.imagem.url }}" class="btn mt-3" download>Baixar Carta de Magia</a></center>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
     <!-- Controles de Paginação -->
     <div class="d-flex justify-content-center mt-4">

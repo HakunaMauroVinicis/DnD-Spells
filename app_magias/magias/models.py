@@ -30,7 +30,19 @@ class Escolas(models.Model):
     nome = models.CharField(max_length=255, blank=False, null=False)
     cor = models.CharField(max_length=7, blank=True, null=True, help_text='Insira uma cor em formato hexadecimal, ex: #FF5733')
 
-    
+    def text_color(self):
+        # Converte a cor hexadecimal em RGB
+        hex_color = self.cor.lstrip('#')
+        r = int(hex_color[0:2], 16)
+        g = int(hex_color[2:4], 16)
+        b = int(hex_color[4:6], 16)
+        
+        # Calcula a luminosidade
+        luminosity = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+        
+        # Retorna a cor do texto com base na luminosidade
+        return '#000000' if luminosity < 0.5 else '#FFFFFF'
+
     class Meta:
         db_table = 'escolas'
         ordering = ('id', )
@@ -39,6 +51,7 @@ class Escolas(models.Model):
 
     def __str__(self):
         return self.nome
+
 
 class Fonte(models.Model):
     nome = models.CharField(max_length=100, blank=False, null=False)

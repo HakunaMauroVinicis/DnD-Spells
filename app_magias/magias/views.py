@@ -11,16 +11,20 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    niveis = [str(i) for i in range(10)]  # Níveis de 0 a 9
+    componentes = ["V", "S", "M"]  # Lista de componentes
+
     context = {
         'magias': page_obj,
         'classes': Classes.objects.all(),
         'escolas': Escolas.objects.all(),
+        'niveis': niveis,  # Adiciona a lista de níveis
+        'componentes': componentes,  # Adiciona a lista de componentes
         'paginator': paginator,
     }
     return render(request, 'magias/index.html', context)
 
 def filter_magias(request):
-    # Filtrando magias com base nos parâmetros de consulta
     magias = Magias.objects.all()
     
     nome = request.GET.get('nome')
@@ -61,12 +65,14 @@ def filter_magias(request):
     escolas = Escolas.objects.all()
     classes = Classes.objects.all()
     componentes = Componentes.objects.all()
+    niveis = [str(i) for i in range(10)]  # Adiciona a lista de níveis
 
     context = {
         'magias': page_obj,
         'escolas': escolas,
         'classes': classes,
         'componentes': componentes,
+        'niveis': niveis,  # Adiciona a lista de níveis
         'paginator': paginator,
     }
     
