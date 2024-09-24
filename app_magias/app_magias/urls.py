@@ -19,12 +19,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 from magias import views
+from utils import popula_magias
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
     path('filter/', views.filter_magias, name='filter_magias'),
     path('autocomplete/', views.autocomplete_magias, name='autocomplete_magias'),
+    path('salvar/', popula_magias.magias, name='salvar'),
 ]
 
 # Configuração para servir arquivos de mídia apenas no ambiente de desenvolvimento

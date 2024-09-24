@@ -1,20 +1,21 @@
-from django.http import HttpResponse
 import requests
+from django.http import HttpResponse
 from magias.models import Classes, Componentes, Escolas, Fonte, Magias
 
-# Dicionário de cores para cada escola
-escolas_cores = {
-    'Abjuration': '#0000FF',  # Azul
-    'Conjuration': '#FFA500',  # Laranja
-    'Divination': '#FFD700',   # Dourado
-    'Enchantment': '#800080',   # Roxo
-    'Evocation': '#FF0000',    # Vermelho
-    'Illusion': '#00FFFF',      # Ciano
-    'Necromancy': '#808080',    # Cinza
-    'Transmutation': '#008000', # Verde
-}
 
-def populate_spells(request):
+def magias(request):
+    # Dicionário de cores para cada escola
+    escolas_cores = {
+        'Abjuration': '#0000FF',  # Azul
+        'Conjuration': '#FFA500',  # Laranja
+        'Divination': '#FFD700',   # Dourado
+        'Enchantment': '#800080',  # Roxo
+        'Evocation': '#FF0000',    # Vermelho
+        'Illusion': '#00FFFF',     # Ciano
+        'Necromancy': '#808080',   # Cinza
+        'Transmutation': '#008000',# Verde
+    }
+
     response = requests.get('https://www.dnd5eapi.co/api/spells')
     if response.status_code != 200:
         print('Erro ao acessar a API')
@@ -75,4 +76,4 @@ def populate_spells(request):
             magia.save()
 
     print('Magias adicionadas com sucesso!')
-    return HttpResponse('FIMMMMMMMMMMMMMMMM')
+    return HttpResponse('Magias adicionadas com sucesso!')  # Ensure a valid HttpResponse is returned

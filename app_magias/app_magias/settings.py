@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0&@(&1jrgqt=0&+yilh=vz&_qg(#d9=_=^9^j06vg=k#-h)x9v'
+SECRET_KEY = '_b5^z=pzt2&d7^ca5qq#wcfsrxa6eu-+skqmw9b82#*(ajh4ub'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,13 +78,6 @@ WSGI_APPLICATION = 'app_magias.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -123,10 +116,6 @@ LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
-LANGUAGES = [
-    ('pt', 'Português'),
-    ('en', 'English'),
-]
 
 USE_TZ = True
 
